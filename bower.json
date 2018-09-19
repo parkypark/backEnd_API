@@ -1,0 +1,22 @@
+{
+  "name": "api.starlinewindows.com",
+  "version": "0.0.1",
+  "description": "Starline Architectural Windows API Server",
+  "main": "server.php",
+  "authors": [
+    "Alistair Walmsley"
+  ],
+  "license": "MIT",
+  "homepage": "http://api.starlinewindows.com",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "public/bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.*"
+  }
+}

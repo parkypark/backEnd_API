@@ -1,0 +1,8 @@
+.idea
+.vscode
+.remote-sync.json
+npm-debug.log
+app/storage/cache
+app/storage/logs
+app/storage/sessions
+vendor/

@@ -1,0 +1,99 @@
+<?php namespace ProjectsWeb;
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use DB, Eloquent, JWTAuth;
+
+class Project extends Eloquent {
+
+    use SoftDeletingTrait;
+
+    protected   $connection = 'projects-web';
+    protected   $table      = 'headers';
+    protected   $dates      = ['deleted_at'];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::updating(function($model)
+        {
+            $user = JWTAuth::parseToken()->toUser();
+            $model->updated_by = $user->id;
+        });
+
+        static::deleting(function($model)
+        {
+            $user = JWTAuth::parseToken()->toUser();
+
+            // Needed because soft delete = update one column and using eloquent would trigger an update event
+            DB::connection('projects-web')
+                ->update('UPDATE headers SET deleted_by = ? WHERE id = ?', [$user->id, $model->id]);
+        });
+
+        static::saving(function($model)
+        {
+            $user = JWTAuth::parseToken()->toUser();
+            $model->created_by = $user->id;
+        });
+    }
+
+    public function additionalCustomers()
+    {
+        return $this->hasMany('ProjectsWeb\AdditionalCustomer', 'projectid', 'projectid');
+    }
+
+    public function branch()
+    {
+        return $this->hasOne('ProjectsWeb\Branch', 'id', 'branch');
+    }
+
+    public function bidStatus()
+    {
+        return $this->hasOne('ProjectsWeb\BidStatus', 'id', 'bidstatus');
+    }
+
+    public function changeOrders()
+    {
+        return $this->hasMany('ProjectsWeb\ChangeOrder', 'projectid', 'projectid');
+    }
+
+    public function commercial()
+    {
+        return $this->hasOne('ProjectsWeb\Commercial', 'projectid', 'projectid');
+    }
+
+    public function commercialSubcontractors()
+    {
+        return $this->hasMany('ProjectsWeb\CommercialSubcontractor', 'projectid', 'projectid');
+    }
+
+    public function documents()
+    {
+        return $this->hasMany('ProjectsWeb\Document', 'project_id', 'projectid');
+    }
+
+    public function estimator()
+    {
+        return $this->hasOne('ProjectsWeb\Estimator', 'id', 'estimator');
+    }
+
+    public function products()
+    {
+        return $this->hasMany('ProjectsWeb\Product', 'projectid', 'projectid');
+    }
+
+    public function projectInfo()
+    {
+        return $this->hasOne('ProjectsWeb\ProjectInfo', 'projectid', 'projectid');
+    }
+
+    public function projectType()
+    {
+        return $this->hasOne('ProjectsWeb\ProjectType', 'id', 'type');
+    }
+
+    public function status()
+    {
+        return $this->hasOne('ProjectsWeb\ProjectStatus', 'id', 'status');
+    }
+}

@@ -1,0 +1,24 @@
+<?php namespace ProjectsWeb;
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+
+class Product extends \Eloquent {
+
+    use SoftDeletingTrait;
+
+    protected   $connection = 'projects-web';
+    protected   $table      = 'products';
+    protected   $dates      = ['deleted_at'];
+    public      $timestamps = false;
+
+    public function project()
+    {
+        return $this->belongsTo('ProjectsWeb\Project', 'projectid', 'projectid');
+    }
+
+    public function productSeries()
+    {
+        return $this->hasOne('ProjectsWeb\ProductSeries', 'series', 'series');
+    }
+
+}

@@ -1,0 +1,15 @@
+<?php namespace ProjectsWeb;
+
+use Illuminate\Database\Eloquent\SoftDeletingTrait;
+use Jenssegers\Mongodb\Model;
+
+class CustomerContact extends Model {
+
+    use SoftDeletingTrait;
+
+    protected   $connection = 'pw2';
+    protected   $table      = 'customer_contacts';
+    protected   $dates      = ['created_at', 'deleted_at', 'updated_at'];
+    public      $timestamps = true;
+
+}

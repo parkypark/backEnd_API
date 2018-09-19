@@ -1,0 +1,9 @@
+<?php namespace ProjectsWeb;
+
+class ProjectInfo extends \Eloquent {
+
+    protected   $connection = 'projects-web';
+    protected   $table      = 'project_info';
+    public      $timestamps = false;
+
+}

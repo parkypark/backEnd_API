@@ -1,0 +1,66 @@
+<?php $__env->startSection('content'); ?>
+  <p>
+      Please find enclosed
+      <?php for($i = 0; $i < count($samples); ++$i): ?>
+        <?php if($i > 0): ?> &amp; <?php endif; ?>
+        <?php echo (new NumberFormatter("en", NumberFormatter::SPELLOUT))->format(($samples[$i]->quantity)); ?>
+        (<?php echo $samples[$i]->quantity; ?>)
+        <?php echo $samples[$i]->quantity > 1 ? 'samples' : 'sample'; ?>
+
+        <?php echo "of {$samples[$i]->name} {$samples[$i]->code} to meet AAMA {$samples[$i]->aama} specifications for the"; ?>
+
+        <?php echo strtolower($samples[$i]->type) . ' frame finish' . ($i === count($samples) - 1 ? '.' : ''); ?>
+
+      <?php endfor; ?>
+  </p>
+
+  <p class="text-em">
+      Please note that a metallic color approval has an eight (8) week &amp; non-metallic color approval has a three
+      (3) week lead time for powder to be received for painting of material from the date the signed chip is received
+      by this office.
+  </p>
+
+  <p class="text-center text-em text-strong">
+      ABOVE LEAD TIMES DO NOT INCLUDE FOR MANUFACTURING!
+  </p>
+
+  <p class="text-em text-strong">
+      Please note that actual color locations are to be specified on shop drawings.
+  </p>
+
+  <p>
+      If approved, please sign the back of the chip, where indicated, and return to this office within <?php echo (new NumberFormatter("en", NumberFormatter::SPELLOUT))->format(($required_days)); ?>
+      (<?php echo $required_days; ?>) days business days of receipt by <strong class="text-red"><?php echo $required_date; ?></strong>.
+      Please note that final stamped shop drawings cannot be provided unless this submittal form is signed as
+      approved and returned.
+  </p>
+
+  <table>
+    <thead>
+      <tr class="bordered-bottom">
+        <th>Sample</td>
+        <th>Color</th>
+        <th class="text-right">AAMA</td>
+      </tr>
+    </thead>
+
+    <tbody>
+      <?php foreach($samples as $sample): ?>
+        <tr>
+          <td><?php echo $sample->type; ?></td>
+          <td><?php echo $sample->name; ?> <?php echo $sample->code; ?></td>
+          <td class="text-right"><?php echo $sample->aama; ?></td>
+        </tr>
+      <?php endforeach; ?>
+    </tbody>
+  </table>
+
+  <table class="text-large" style="margin-top:1em">
+    <tr>
+      <td class="col-min text-nowrap" style="padding-right:2em">Samples Received and Approved by:</td>
+      <td class="bordered-bottom"></td>
+    </tr>
+  </table>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.transmittal', array_except(get_defined_vars(), array('__data', '__path')))->render(); ?>
